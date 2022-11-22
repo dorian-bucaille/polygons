@@ -39,9 +39,20 @@ addAsset("sadTriangle", "../img/sad_triangle.png");
 addAsset("yaySquare", "../img/yay_square.png");
 addAsset("mehSquare", "../img/meh_square.png");
 addAsset("sadSquare", "../img/sad_square.png");
+addAsset("workPlace", "../img/work_place.png");
 
 var IS_PICKING_UP = false;
 var lastMouseX, lastMouseY;
+
+function Workplace(x, y) {
+  var self = this;
+  this.x = x;
+  this.y = y;
+
+  self.draw = function () {
+    ctx.drawImage(images["workPlace"], x, y, TILE_SIZE, TILE_SIZE);
+  };
+}
 
 function Draggable(x, y) {
   var self = this;
@@ -89,7 +100,7 @@ function Draggable(x, y) {
       if (d == self) continue;
       var dx = d.x - potentialX;
       var dy = d.y - potentialY;
-      if (dx * dx + dy * dy < 10) {
+      if (dx * dx + dy * dy < 10 || isWorkplace(px, py)) {
         spotTaken = true;
         break;
       }
@@ -223,6 +234,17 @@ function Draggable(x, y) {
 
 window.START_SIM = false;
 
+// check if there is a workplace on this tile
+function isWorkplace(x, y) {
+  for (var i = 0; i < workplaces.length; i++) {
+    var w = workplaces[i];
+    if (w.x == x * TILE_SIZE && w.y == y * TILE_SIZE) {
+      return true;
+    }
+  }
+}
+
+var workplaces;
 var draggables;
 var STATS;
 window.reset = function () {
@@ -246,10 +268,19 @@ window.reset = function () {
 
   stats_ctx.clearRect(0, 0, stats_canvas.width, stats_canvas.height);
 
+  workplaces = [];
+  for (var i = 0; i < NB_WORK_PLACES; i++) {
+    var workplace = new Workplace(
+      Math.floor(parseInt(Math.random() * GRID_SIZE, 10)) * TILE_SIZE,
+      Math.floor(parseInt(Math.random() * GRID_SIZE, 10)) * TILE_SIZE
+    );
+    workplaces.push(workplace);
+  }
+
   draggables = [];
   for (var x = 0; x < GRID_SIZE; x++) {
     for (var y = 0; y < GRID_SIZE; y++) {
-      if (Math.random() < 1 - window.EMPTINESS) {
+      if (Math.random() < 1 - window.EMPTINESS && !isWorkplace(x, y)) {
         var draggable = new Draggable(
           (x + 0.5) * TILE_SIZE,
           (y + 0.5) * TILE_SIZE
@@ -293,6 +324,9 @@ window.render = function () {
   }
   for (var i = 0; i < draggables.length; i++) {
     draggables[i].draw();
+  }
+  for (var i = 0; i < workplaces.length; i++) {
+    workplaces[i].draw();
   }
 
   // Done stepping?
