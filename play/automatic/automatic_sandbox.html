@@ -54,7 +54,7 @@
 			<!-- Grid size -->
 			the grid size is
 			<div>
-				<input type="number" id="grid_size" name="grid_size" min="25" max="100" value="50"
+				<input type="number" id="grid_size" name="grid_size" min="10" max="100" value="50"
 				onvaluechange="window.GRID_SIZE=value">
 			</div>
 
@@ -73,12 +73,6 @@
 
 // Make the HTML number selection "grid_size" change GRID_SIZE
 document.getElementById("grid_size").onchange = function() {
-	// if the value is less than 25, set it to 25
-	// we do this because when the grid size is less than 25, the simulation doesn't work
-	// this must be because of the 0.5 pixel offset used in some functions
-	if (this.value < 25) {
-		this.value = 25;
-	}
 	window.GRID_SIZE = this.value;
 	reset();
 }

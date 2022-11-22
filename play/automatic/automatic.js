@@ -12,6 +12,11 @@ var PEEP_SIZE = canvas.width / GRID_SIZE;
 var DIAGONAL_SQUARED =
   (TILE_SIZE + 5) * (TILE_SIZE + 5) + (TILE_SIZE + 5) * (TILE_SIZE + 5);
 
+// Work parameters
+var RATIO_WORKERS = window.RATIO_WORKERS || 0.33;
+var NB_WORK_PLACES = window.NB_WORK_PLACES || 5;
+var MAX_WORK_DISTANCE = window.MAX_WORK_DISTANCE || 8;
+
 window.RATIO_TRIANGLES = 0.5;
 window.RATIO_SQUARES = 0.5;
 window.EMPTINESS = 0.2;
@@ -221,9 +226,18 @@ window.START_SIM = false;
 var draggables;
 var STATS;
 window.reset = function () {
+  // Update display
   GRID_SIZE = window.GRID_SIZE || 50;
   TILE_SIZE = canvas.width / GRID_SIZE;
   PEEP_SIZE = canvas.width / GRID_SIZE;
+  DIAGONAL_SQUARED =
+    (TILE_SIZE + 5) * (TILE_SIZE + 5) + (TILE_SIZE + 5) * (TILE_SIZE + 5);
+
+  // Update work parameters
+  RATIO_WORKERS = window.RATIO_WORKERS || 0.33;
+  NB_WORK_PLACES = window.NB_WORK_PLACES || 5;
+  MAX_WORK_DISTANCE = window.MAX_WORK_DISTANCE || 8;
+
   STATS = {
     steps: 0,
     offset: 0,
