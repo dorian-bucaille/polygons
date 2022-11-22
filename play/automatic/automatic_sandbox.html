@@ -36,8 +36,23 @@
 			<div id="slider2"></div>
 			<br>
 
+			<!-- Workers ratio -->
+			there are
+			<span class="highlight"><span id="ratio_text_workers">40%</span></span> of workers
+			<br>
+			<input type="range" min="0" max="100" value="33" id="ratio_workers">
+			<br>
+
+			<!-- Working places -->
+			there are <input type="number" id="nb_work_places" name="nb_work_places" min="0" max="30" value="5"> working places
+			<br>
+
+			<!-- Work distance -->
+			i'll move if i don't live within <input type="number" id="max_work_distance" name="max_work_distance" min="0" max="30" value="8"> blocks of my job
+			<br>
+
+			<!-- Grid size -->
 			the grid size is
-			<!-- HTLM number selection for grid size -->
 			<div>
 				<input type="number" id="grid_size" name="grid_size" min="25" max="100" value="50"
 				onvaluechange="window.GRID_SIZE=value">
@@ -55,18 +70,38 @@
 <script src="automatic.js"></script>
 <script src="doubleslider.js"></script>
 <script>
-// Set GRID_SIZE to the value of the HTML number selection
-if (document.getElementById("grid_size").value < 25) {
-	document.getElementById("grid_size").value = 25;
-	}
-window.GRID_SIZE = document.getElementById("grid_size").value;
-// Make the HTML number selection change GRID_SIZE
+
+// Make the HTML number selection "grid_size" change GRID_SIZE
 document.getElementById("grid_size").onchange = function() {
 	// if the value is less than 25, set it to 25
+	// we do this because when the grid size is less than 25, the simulation doesn't work
+	// this must be because of the 0.5 pixel offset used in some functions
 	if (this.value < 25) {
 		this.value = 25;
 	}
 	window.GRID_SIZE = this.value;
+	reset();
+}
+
+// Make the HTML slider "ratio_workers" change the ratio of workers
+document.getElementById("ratio_workers").onchange = function() {
+	window.RATIO_WORKERS = this.value / 100;
+
+	// Update the text
+	document.getElementById("ratio_text_workers").innerHTML = this.value + "%";
+
+	reset();
+}
+
+// Make the HTML number selection "nb_work_places" change the number of work places
+document.getElementById("nb_work_places").onchange = function() {
+	window.NB_WORK_PLACES = this.value;
+	reset();
+}
+
+// Make the HTML number selection "max_work_distance" change the work distance threshold
+document.getElementById("max_work_distance").onchange = function() {
+	window.MAX_WORK_DISTANCE = this.value;
 	reset();
 }
 
