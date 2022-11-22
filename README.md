@@ -1,6 +1,6 @@
 ![](http://i.imgur.com/NcsRW1q.png)
 
-**[PLAY IT HERE (http://ncase.me/polygons)](http://ncase.me/polygons)**
+**[PLAY IT HERE (https://dorian-bucaille.github.io/polygons/)](https://dorian-bucaille.github.io/polygons/)**
 
 ---
 
@@ -16,3 +16,10 @@ Show us how you're using and remixing Parable of the Polygons!
 Tweet us at
 [@vihartvihart](https://twitter.com/vihartvihart) and
 [@ncasenmare](https://twitter.com/ncasenmare).
+
+---
+
+I added the following to the project :
+- unhappy & bored stats
+- grid size modifier
+- work mechanic — you can choose the percentage of working shapes. Working shapes want to live near working places. The distance between a working place and a shape can be set up, as well as the number of working places.
