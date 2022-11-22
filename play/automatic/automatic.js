@@ -155,6 +155,31 @@ function Draggable(x, y) {
       if (neighbors == 0) {
         self.shaking = false;
       }
+
+      // Check if the draggable is a worker
+      if (self.isWorker) {
+        // Check if the worker is close to a workplace
+        // We use the manhattan distance
+        var closestWorkplace = null;
+        var closestDistance = 10000000;
+        var dragx = self.x - TILE_SIZE / 2;
+        var dragy = self.y - TILE_SIZE / 2;
+        for (var i = 0; i < workplaces.length; i++) {
+          var w = workplaces[i];
+          var wx = w.x;
+          var wy = w.y;
+          var dx = Math.abs(wx - dragx) / TILE_SIZE;
+          var dy = Math.abs(wy - dragy) / TILE_SIZE;
+          var distance = dx + dy;
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestWorkplace = w;
+          }
+        }
+        if (closestDistance > MAX_WORK_DISTANCE) {
+          self.shaking = true;
+        }
+      }
     }
 
     // Dragging
@@ -256,9 +281,9 @@ window.reset = function () {
     (TILE_SIZE + 5) * (TILE_SIZE + 5) + (TILE_SIZE + 5) * (TILE_SIZE + 5);
 
   // Update work parameters
-  RATIO_WORKERS = window.RATIO_WORKERS || 0.33;
-  NB_WORK_PLACES = window.NB_WORK_PLACES || 5;
-  MAX_WORK_DISTANCE = window.MAX_WORK_DISTANCE || 8;
+  RATIO_WORKERS = window.RATIO_WORKERS;
+  NB_WORK_PLACES = window.NB_WORK_PLACES;
+  MAX_WORK_DISTANCE = window.MAX_WORK_DISTANCE;
 
   STATS = {
     steps: 0,
@@ -271,8 +296,8 @@ window.reset = function () {
   workplaces = [];
   for (var i = 0; i < NB_WORK_PLACES; i++) {
     var workplace = new Workplace(
-      Math.floor(parseInt(Math.random() * GRID_SIZE, 10)) * TILE_SIZE,
-      Math.floor(parseInt(Math.random() * GRID_SIZE, 10)) * TILE_SIZE
+      parseInt(Math.random() * GRID_SIZE, 10) * TILE_SIZE,
+      parseInt(Math.random() * GRID_SIZE, 10) * TILE_SIZE
     );
     workplaces.push(workplace);
   }
@@ -287,6 +312,9 @@ window.reset = function () {
         );
         draggable.color =
           Math.random() < window.RATIO_TRIANGLES ? "triangle" : "square";
+        if (Math.random() < RATIO_WORKERS) {
+          draggable.isWorker = true;
+        }
         draggables.push(draggable);
       }
     }
@@ -479,6 +507,12 @@ function step() {
         var dx = d.gotoX - spot.x;
         var dy = d.gotoY - spot.y;
         if (dx * dx + dy * dy < 10) {
+          spotTaken = true;
+          break;
+        }
+
+        // Mark spot as taken if it's a workplace
+        if (isWorkplace(x, y)) {
           spotTaken = true;
           break;
         }
