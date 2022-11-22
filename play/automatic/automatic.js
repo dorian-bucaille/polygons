@@ -34,11 +34,17 @@ function addAsset(name, src) {
   images[name].src = src;
 }
 addAsset("yayTriangle", "../img/yay_triangle.png");
+addAsset("yayTriangleWorker", "../img/yay_triangle_worker.png");
 addAsset("mehTriangle", "../img/meh_triangle.png");
+addAsset("mehTriangleWorker", "../img/meh_triangle_worker.png");
 addAsset("sadTriangle", "../img/sad_triangle.png");
+addAsset("sadTriangleWorker", "../img/sad_triangle_worker.png");
 addAsset("yaySquare", "../img/yay_square.png");
+addAsset("yaySquareWorker", "../img/yay_square_worker.png");
 addAsset("mehSquare", "../img/meh_square.png");
+addAsset("mehSquareWorker", "../img/meh_square_worker.png");
 addAsset("sadSquare", "../img/sad_square.png");
+addAsset("sadSquareWorker", "../img/sad_square_worker.png");
 addAsset("workPlace", "../img/work_place.png");
 
 var IS_PICKING_UP = false;
@@ -227,19 +233,43 @@ function Draggable(x, y) {
     var img;
     if (self.color == "triangle") {
       if (self.shaking) {
-        img = images.sadTriangle;
+        if (self.isWorker) {
+          img = images.sadTriangleWorker;
+        } else {
+          img = images.sadTriangle;
+        }
       } else if (self.bored) {
-        img = images.mehTriangle;
+        if (self.isWorker) {
+          img = images.mehTriangleWorker;
+        } else {
+          img = images.mehTriangle;
+        }
       } else {
-        img = images.yayTriangle;
+        if (self.isWorker) {
+          img = images.yayTriangleWorker;
+        } else {
+          img = images.yayTriangle;
+        }
       }
     } else {
       if (self.shaking) {
-        img = images.sadSquare;
+        if (self.isWorker) {
+          img = images.sadSquareWorker;
+        } else {
+          img = images.sadSquare;
+        }
       } else if (self.bored) {
-        img = images.mehSquare;
+        if (self.isWorker) {
+          img = images.mehSquareWorker;
+        } else {
+          img = images.mehSquare;
+        }
       } else {
-        img = images.yaySquare;
+        if (self.isWorker) {
+          img = images.yaySquareWorker;
+        } else {
+          img = images.yaySquare;
+        }
       }
     }
 
