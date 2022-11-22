@@ -39,7 +39,7 @@
 			the grid size is
 			<!-- HTLM number selection for grid size -->
 			<div>
-				<input type="number" id="grid_size" name="grid_size" min="1" max="100" value="50"
+				<input type="number" id="grid_size" name="grid_size" min="25" max="100" value="50"
 				onvaluechange="window.GRID_SIZE=value">
 			</div>
 
@@ -56,9 +56,16 @@
 <script src="doubleslider.js"></script>
 <script>
 // Set GRID_SIZE to the value of the HTML number selection
+if (document.getElementById("grid_size").value < 25) {
+	document.getElementById("grid_size").value = 25;
+	}
 window.GRID_SIZE = document.getElementById("grid_size").value;
 // Make the HTML number selection change GRID_SIZE
 document.getElementById("grid_size").onchange = function() {
+	// if the value is less than 25, set it to 25
+	if (this.value < 25) {
+		this.value = 25;
+	}
 	window.GRID_SIZE = this.value;
 	reset();
 }
