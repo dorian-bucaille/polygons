@@ -6,9 +6,9 @@ var stats_ctx = stats_canvas.getContext("2d");
 
 var NONCONFORM = 1.0;
 var BIAS = 0.33;
-var TILE_SIZE = 30;
-var PEEP_SIZE = 30;
-var GRID_SIZE = 20;
+var GRID_SIZE = window.GRID_SIZE || 50;
+var TILE_SIZE = canvas.width / GRID_SIZE;
+var PEEP_SIZE = canvas.width / GRID_SIZE;
 var DIAGONAL_SQUARED =
   (TILE_SIZE + 5) * (TILE_SIZE + 5) + (TILE_SIZE + 5) * (TILE_SIZE + 5);
 
@@ -175,11 +175,11 @@ function Draggable(x, y) {
 
     if (self.shaking) {
       self.frame += 0.07;
-      ctx.translate(0, 20);
+      ctx.translate(0, 10);
       ctx.rotate(
         Math.sin(self.frame - (self.x + self.y) / 200) * Math.PI * 0.05
       );
-      ctx.translate(0, -20);
+      ctx.translate(0, -10);
     }
 
     // Draw thing
@@ -221,6 +221,9 @@ window.START_SIM = false;
 var draggables;
 var STATS;
 window.reset = function () {
+  GRID_SIZE = window.GRID_SIZE || 50;
+  TILE_SIZE = canvas.width / GRID_SIZE;
+  PEEP_SIZE = canvas.width / GRID_SIZE;
   STATS = {
     steps: 0,
     offset: 0,

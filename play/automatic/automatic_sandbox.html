@@ -36,6 +36,13 @@
 			<div id="slider2"></div>
 			<br>
 
+			the grid size is
+			<!-- HTLM number selection for grid size -->
+			<div>
+				<input type="number" id="grid_size" name="grid_size" min="1" max="100" value="50"
+				onvaluechange="window.GRID_SIZE=value">
+			</div>
+
 			<div class="ui" id="moving" onclick="START_SIM=!START_SIM; doneBuffer = 60; window.writeStats()"></div>
 			<div class="ui" id="reset" onclick="reset()" style="margin-left:9px"></div>
 
@@ -48,6 +55,14 @@
 <script src="automatic.js"></script>
 <script src="doubleslider.js"></script>
 <script>
+// Set GRID_SIZE to the value of the HTML number selection
+window.GRID_SIZE = document.getElementById("grid_size").value;
+// Make the HTML number selection change GRID_SIZE
+document.getElementById("grid_size").onchange = function() {
+	window.GRID_SIZE = this.value;
+	reset();
+}
+
 window.PICK_UP_ANYONE = true;
 
 var bias_text = document.getElementById("bias_text");
@@ -101,5 +116,4 @@ var whatever = new DoubleSlider(document.getElementById("slider2"),{
 		reset();
 	}
 });
-
 </script>
