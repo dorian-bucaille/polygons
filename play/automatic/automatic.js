@@ -6,7 +6,7 @@ var stats_ctx = stats_canvas.getContext("2d");
 
 var NONCONFORM = 1.0;
 var BIAS = 0.33;
-var GRID_SIZE = window.GRID_SIZE || 50;
+var GRID_SIZE = window.GRID_SIZE || 25;
 var TILE_SIZE = canvas.width / GRID_SIZE;
 var PEEP_SIZE = canvas.width / GRID_SIZE;
 var DIAGONAL_SQUARED =
@@ -304,7 +304,7 @@ var draggables;
 var STATS;
 window.reset = function () {
   // Update display
-  GRID_SIZE = window.GRID_SIZE || 50;
+  GRID_SIZE = window.GRID_SIZE || 25;
   TILE_SIZE = canvas.width / GRID_SIZE;
   PEEP_SIZE = canvas.width / GRID_SIZE;
   DIAGONAL_SQUARED =
